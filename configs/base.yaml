@@ -1,0 +1,4 @@
+seed: 42
+img_size: 224
+dataset: paultimothymooney/chest-xray-pneumonia
+split: {train: 0.70, val: 0.15, test: 0.15}
