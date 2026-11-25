@@ -1,0 +1,8 @@
+# Pinned for Colab (Python 3.10+). Check with `pip freeze` on Colab and update the pins you actually ran.
+tensorflow==2.17.0
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.2
+matplotlib==3.8.4
+Pillow==10.4.0
+kagglehub==0.3.4
