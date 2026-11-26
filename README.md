@@ -1,6 +1,6 @@
 # Pneumonia detection from pediatric chest X-rays (AIE231 Neural Networks)
 
-Numbers marked TBD need the final test run (M7, notebook 07).
+Test results come from notebook 07 (seeds 42, 7, 123; test set predicted once per model). The validation rows come from notebooks 03 to 05.
 
 ## Problem
 Binary classification of chest X-rays: NORMAL vs PNEUMONIA (positive class). Primary metric: recall on pneumonia, always read together with recall on normal, F1 and AUC.
@@ -15,7 +15,8 @@ Kaggle "Chest X-Ray Images (Pneumonia)" (paultimothymooney), CC BY 4.0, 5,856 im
 | MLP baseline | 0.969 | 0.911 | 0.987 |
 | Small CNN (from scratch) | 0.809 | 0.864 | 0.912 |
 | VGG16 fine-tuned (block5) | 0.962 | 0.945 | 0.990 |
-| Final VGG16, threshold 0.15, 3 seeds, TEST | TBD | TBD | TBD |
+| Final VGG16 fine-tuned, TEST, threshold 0.15 (mean of 3 seeds) | 0.968 (std 0.018) | 0.923 (std 0.041) | 0.989 |
+| Same, TEST, threshold 0.5 | 0.920 (std 0.027) | 0.980 (std 0.009) | 0.989 |
 Ablations (2 seeds): pretraining and fine-tuning matter; augmentation, class weights and dropout show no clear gain beyond seed noise.
 
 ## Setup and run
