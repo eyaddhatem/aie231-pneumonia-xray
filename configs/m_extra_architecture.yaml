@@ -1,8 +1,0 @@
-# Architecture factors on the small CNN (spec 3.5): depth, filters, units, batchnorm.
-base: base.yaml
-model: cnn_small
-grid:
-  filters: [[16, 32], [16, 32, 64], [16, 32, 64, 128]]
-  dense_units: [32, 64, 128]
-  batchnorm: [false, true]
-seeds: [42]
