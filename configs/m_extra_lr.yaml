@@ -1,5 +1,0 @@
-# Learning-rate study: third value added (M5 had 1e-5 and 3e-5 for fine-tuning).
-base: base.yaml
-model: vgg16_finetune_block5
-finetune_lr: [1e-5, 3e-5, 1e-4]
-seeds: [42, 7, 123]
