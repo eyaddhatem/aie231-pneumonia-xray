@@ -1,35 +1,29 @@
-# Pneumonia detection from pediatric chest X-rays (AIE231 Neural Networks)
+# Pneumonia detection from pediatric chest X-rays
 
-Test results come from notebook 07 (seeds 42, 7, 123; test set predicted once per model). The validation rows come from notebooks 03 to 05.
+Course project for AIE231 Neural Networks, Alamein International University.
 
-## Problem
-Binary classification of chest X-rays: NORMAL vs PNEUMONIA (positive class). Primary metric: recall on pneumonia, always read together with recall on normal, F1 and AUC.
+## What this project is
+A neural-network system that looks at one chest X-ray of a child and predicts whether it shows pneumonia (NORMAL or PNEUMONIA). The intended user is a clinician or screening nurse who wants a second opinion that does not miss cases. A missed pneumonia case is the costly error, so the main metric is recall on pneumonia, always read together with recall on normal.
 
-## Data
-Kaggle "Chest X-Ray Images (Pneumonia)" (paultimothymooney), CC BY 4.0, 5,856 images. 32 duplicate files removed (5,824 kept). Kaggle's own splits leak 170 patients across splits, so we re-split: patient-grouped, stratified 70/15/15 (train 4,031 / val 870 / test 923), seed 42. See data/README.md for download.
+## Dataset
+Kaggle "Chest X-Ray Images (Pneumonia)" (paultimothymooney), licence CC BY 4.0. The original data are by Kermany et al. (2018). It holds 5,856 pediatric chest X-rays from one hospital system, about 73% of them pneumonia.
 
-## Results (validation set unless stated)
-| Model | Recall pneumonia | Recall normal | AUC |
-|---|---|---|---|
-| Majority class | 1.000 on pneumonia only, accuracy 0.730 | 0 | 0.5 |
-| MLP baseline | 0.969 | 0.911 | 0.987 |
-| Small CNN (from scratch) | 0.809 | 0.864 | 0.912 |
-| VGG16 fine-tuned (block5) | 0.962 | 0.945 | 0.990 |
-| Final VGG16 fine-tuned, TEST, threshold 0.15 (mean of 3 seeds) | 0.968 (std 0.018) | 0.923 (std 0.041) | 0.989 |
-| Same, TEST, threshold 0.5 | 0.920 (std 0.027) | 0.980 (std 0.009) | 0.989 |
-Ablations (2 seeds): pretraining and fine-tuning matter; augmentation, class weights and dropout show no clear gain beyond seed noise.
+## Approach
+1. Understand the data: class balance, duplicates, patient overlap, image sizes and pixel statistics.
+2. Prepare the data without leakage: remove duplicate files, build our own patient-grouped, stratified 70/15/15 train/validation/test split, handle class imbalance with class weights, and augment training images only.
+3. Compare simple baselines with neural networks: a small CNN trained from scratch and a pretrained VGG16 fine-tuned on our data.
+4. Tune and run ablations using the validation set only, then evaluate on the test set once at the end.
+5. Analyse the errors and build a small inference demo.
 
-## Setup and run
-pip install -r requirements.txt, then run notebooks 01 to 07 in order on a free Colab T4 GPU. Tests: `python -m pytest tests`. Demo: `python app/app.py` after M9 saves `models/vgg16_final.weights.h5`.
+## Team goal
+Build a careful, honest project: every member can explain the whole pipeline, results are reported with their limits, and the test set is never used for tuning. Team role: Eyad Hatem, Project Manager.
+
+## Where the project is now
+This repository currently contains Milestones 1 and 2 only:
+- Milestone 1: problem formulation and exploratory data analysis (`notebooks/01_eda.ipynb`).
+- Milestone 2: data engineering and preprocessing (`notebooks/02_preprocessing.ipynb`, `src/data.py`).
+
+The later milestones are being finished and will be added to this repository later.
 
 ## Limitations
-Course project, not a diagnostic tool. Pediatric data from one source, no external validation, one split, imbalance and a low threshold trade fewer missed cases for more false alarms.
-
-## AI use
-An AI assistant helped build the reference pipeline; team members must be able to explain every line. Details in the report appendix.
-
-## Repository layout
-- `src/` data.py (inventory, leak-free split, pipeline), models.py (CNN, VGG16), evaluate.py (metrics), train.py (experiment log), predict.py (inference)
-- `notebooks/` 01 EDA, 02 preprocessing, 03 baselines, 04 models, 05 tuning, 06 ablations, 07 final test evaluation
-- `configs/` one YAML per experiment; `experiments/` result CSVs; `tests/` pytest (`python -m pytest tests`); `app/app.py` Gradio demo; `report/` report and team division
-- Team role: Eyad Hatem, Project Manager.
+This is a course project, not a diagnostic tool. The data come from one pediatric source, so results may not carry over to adults or other hospitals.
